@@ -2,6 +2,12 @@
 
 Shelly script to import Switchbot meter data using BLE and control other Shelly devices based on temperature and humidity readings.
 
+## Example Output
+
+![Shelly Dashboard](screenshot.png)
+
+Screenshot shows temperature and humidity readings from Switchbot devices displayed in Shelly's virtual components.
+
 ## What it does
 
 This script enables:
