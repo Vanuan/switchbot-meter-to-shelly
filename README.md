@@ -72,10 +72,24 @@ Note: The key is the BLE MAC address without colons. `temp` and `hum` are the vi
    - To turn a relay on, use a "hit URL" action: `http://192.168.0.xxx/relay/0?turn=on`
      (Replace `192.168.0.xxx` with the IP address of the relay you want to control)
 
-## Files
+## How It Works
 
-- `switchbot-meter-ble.js` - Main script file
-- `README.md` - This documentation
+The script processes data through several stages:
+
+### BLE Scanning
+- Performs periodic BLE scanning at configurable intervals
+- Identifies Switchbot devices by manufacturer ID (0x0969)
+- Supports both Switchbot Hub and Meter data formats
+
+### Data Flow
+- Stores latest readings in memory with expiration timeout
+- Updates Shelly virtual components with current values
+- Prints readings to console (e.g., `Living Room: 23.5°C, 45%`)
+
+### Action Integration
+- Virtual components can trigger Shelly actions based on temperature/humidity changes
+- Example: Turn on fan when humidity exceeds threshold
+- Example: Control heater based on temperature readings
 
 ## Contributing
 
