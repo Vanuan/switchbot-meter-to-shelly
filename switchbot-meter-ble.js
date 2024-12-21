@@ -95,27 +95,31 @@ function handleScanResult(event, result) {
         let device = DEVICES[addr];
         
         if (device) {
+            print("Device Found: " + device.name);
+
             let mfgData = result.manufacturer_data["0969"].substring(6, result.manufacturer_data["0969"].length);
             let isHub = addr === "DD4698BD8C71";
             let data = parseSwitchBotData(mfgData, isHub);
-            if(!device.temp || !device.hum) { return }
 
-
-            
             if (data) {
-                    deviceReadings[addr] = {
+                print("Parsed Data: " + JSON.stringify(data));
+                deviceReadings[addr] = {
                     name: device.name,
                     temp: device.temp,
                     hum: device.hum,
                     temperature: data.temperature,
                     humidity: data.humidity,
                     timestamp: Date.now()
-                    };
-  
+                };
+            } else {
+                print("Failed to parse data");
             }
+        } else {
+            print("Device not found in DEVICES");
         }
     }
 }
+
 
 // Start scanning
 function startScan() {
