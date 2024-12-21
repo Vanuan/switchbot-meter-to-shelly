@@ -137,26 +137,35 @@ Timer.set(30000, true, startScan, null);
 startScan();
 
 function updateVirtualComponents() {
+    print("Updating Virtual Components...");
+
     let now = Date.now();
     for (let addr in deviceReadings) {
         let reading = deviceReadings[addr];
+        print("Processing Reading for:", addr, reading);
 
-        // Only update readings less than 5 minutes old
         if (now - reading.timestamp < 300000) {
             let tempComponent = Virtual.getHandle(reading.temp);
             let humComponent = Virtual.getHandle(reading.hum);
             
             if (tempComponent) {
                 tempComponent.setValue(reading.temperature);
+                print(reading.name + ": Temp Updated to " + reading.temperature.toFixed(1) + "°C");
+            } else {
+                print("Temp Component Not Found");
             }
             if (humComponent) {
                 humComponent.setValue(reading.humidity);
+                print(reading.name + ": Humidity Updated to " + reading.humidity + "%");
+            } else {
+                print("Humidity Component Not Found");
             }
-            print(reading.name + ": " + reading.temperature.toFixed(1) + "°C, " + 
-                  reading.humidity + "%");
+        } else {
+            print("Reading is outdated");
         }
     }
 }
+
 
 // Update virtual components every second
 Timer.set(1000, true, updateVirtualComponents, null);
